@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="img/logo/icon.png" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="vendor/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <title>MemeGen</title>
+</head>
+
+<body onload="init()">
+    <header>
+        <div class="logo">
+        </div>
+        <nav class="flex">
+            <button onclick="openMenu(this)" class="btn btn-menu fa fa-bars"></button>
+            <ul class="nav-list clean-list flex">
+                <li onclick="closeGen();toggleActive(this)">
+                    <a class="flex align-items-center" href="#gallery">Gallery</a>
+                </li>
+                <li class="about-item" onclick="toggleActive(this)">
+                    <a href="#about" class="flex align-items-center">About</a>
+                    <div class="hedaer-decoration">
+                        <img src="img/other/hex.png" />
+                    </div>
+                </li>
+                <li onclick="toggleActive(this)">
+                    <a class="flex align-items-center" href="#contact">Get in touch</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="modal">
+        <div onclick="clearDropDown(event)" class="canvas-container flex space-around flex-dir-col">
+            <div onclick="onCanvasClick(event)" class="meme-img flex">
+                <div class="btn modal-back-btn" onclick="closeGen()">
+                    <span class="back-arrow flex fa fa-arrow-left"></span>
+                    <div class="flex align-items-center space-around">Back to gallery</div>
+                </div>
+                <canvas class="canvas"></canvas>
+            </div>
+            <div class="meme-box-control flex flex-dir-col space-between">
+                <div class="box-control container">
+                    <h4 class="line-idx"></h4>
+
+                    <input type="text" class="meme-input-line" oninput="drawText(event,this.value)">
+                    <ul class="control-btns-list clean-list flex justify-content-center">
+                        <li class="control-btn-item">
+                            <div class="control-btn flex fa fa-bold" onclick="toggleBold(this)"></div>
+                        </li>
+                        <li class="control-btn-item">
+                            <div class="control-btn flex  fa fa-minus" onclick="reduceText()"></div>
+                        </li>
+                        <li class="control-btn-item">
+                            <div class="control-btn flex  fa fa-plus" onclick="enlargeText()"></div>
+                        </li>
+                        <li class="control-btn-item">
+                            <input class="control-btn color" oninput="colorChange(this)" type="color" id="txtColor">
+                        </li>
+                    </ul>
+                    <ul class="control-btns-list clean-list flex justify-content-center">
+                        <li>
+                            <div onclick="toggleMenu('font-menu')" class="font-container control-btn flex fa fa-font">
+                                <ul class="font-menu clean-list">
+                                    <li>
+                                        <button onclick="setFont('Impact')" class="control-btn" style="font-family: Impact">Impact</button>
+                                    </li>
+                                    <li>
+                                        <button onclick="setFont('Arial')" class="control-btn" style="font-family: Arial">Arial</button>
+                                    </li>
+                                    <li>
+                                        <button onclick="setFont('Courier')" class="control-btn" style="font-family: Courier">Courier</button>
+                                    </li>
+                                    <li>
+                                        <button onclick="setFont('Helvetica')" class="control-btn" style="font-family: Helvetica">Helvetica</button>
+                                    </li>
+                                    <li>
+                                        <button onclick="setFont('Times')" class="control-btn" style="font-family: Times">Times</button>
+                                    </li>
+                                    <li>
+                                        <button onclick="setFont('Verdana')" class="control-btn" style="font-family: Verdana">Verdana</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="control-btn-item">
+                            <!--  -->
+                            <div onclick="toggleMenu('align-menu')" class="control-btn align-container flex fa fa-align-center">
+                                <ul class="align-menu clean-list">
+                                    <li>
+                                        <button onclick="setAlign('L')" class="control-btn fa fa-align-left"></button>
+                                    </li>
+                                    <li>
+                                        <button onclick="setAlign('C')" class="control-btn fa fa-align-center"></button>
+                                    </li>
+                                    <li>
+                                        <button onclick="setAlign('R')" class="control-btn fa fa-align-right"></button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <button class="control-btn" onclick="toggleShadow(this)">S</button>
+                        </li>
+                    </ul>
+                    <ul class="control-btns-list clean-list flex justify-content-center">
+                        <li class="control-btn-item">
+                            <div onclick="moveRight()" class="control-btn flex fa fa-arrow-right"></div>
+                        </li>
+                        <li class="control-btn-item">
+                            <div onclick="moveLeft()" class="control-btn flex fa fa-arrow-left"></div>
+                        </li>
+                        <li class="control-btn-item">
+                            <div onclick="moveUp()" class="control-btn flex fa fa-arrow-up"></div>
+                        </li>
+                        <li class="control-btn-item">
+                            <div onclick="moveDown()" class="control-btn flex fa fa-arrow-down"></div>
+                        </li>
+                    </ul>
+                    <ul class="control-btns-list clean-list flex justify-content-center">
+                        <li class="control-btn-item">
+                            <div onclick="deleteLine()" class="control-btn flex fa fa-trash-o"></div>
+                        </li>
+                        <li class="control-btn-item">
+                            <div onclick="addNewLine()" class="new-line control-btn flex fa fa-plus-circle"></div>
+                        </li>
+                        <li class="control-btn-item">
+                            <div onclick="TabLines()" class="control-btn flex" style="font-size: 10px">Next-Line</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn btn-down">
+                    <span class="back-arrow flex fa fa-download"></span>
+                    <div class="flex align-items-center space-around download-btn">
+                        <a id="download" href="#" onclick="downloadImg(this)">
+                            Download
+                        </a>
+                    </div>
+                </div>
+                <div class="flex space-around">
+
+                    <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                        <input name="img" id="imgData" type="hidden" />
+                        <button class="social-share-btn" type="submit">Publish</button>
+                    </form>
+                    <div id="fb-root"></div>
+                    <div class="share-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <main id="top" class="flex flex-dir-col justify-content-center align-items-center">
+
+        <div class="share-container"></div>
+        <div class="feature flex">
+            <div class="upload-filter-container flex flex-dir-col">
+                <form class="form-upload" action="#">
+                    <div class="input-file-container">
+                        <input class="input-file" type="file" name="image" onchange="onFileInputChange(event)" />
+                        <label tabindex="0" for="my-file" class="input-file-trigger">Select a file...</label>
+                    </div>
+                    <p class="file-return"></p>
+                </form>
+                <input onchange="filterImagesList(this.value)" class="filter-search" type="text" placeholder="filter by keywords" list="keywords">
+                <datalist id="keywords"></datalist>
+            </div>
+
+            <ul class="popular-searches clean-list flex space-around align-items-center">
+            </ul>
+
+        </div>
+
+        <ul id="gallery" class="imgs-list clean-list">
+        </ul>
+    </main>
+    <section id="about" class="about flex justify-content-center">
+        <div class="about-container flex flex-dir-col space-between">
+            <div class="about-logo"></div>
+            <div class="about-text-container">
+                <h1>Omer Sela & Gal Sinai</h1>
+                <h3>Full-stack programers</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea deleniti magnam porro, quibusdam distinctio aut
+                    fuga reprehenderit aspernatur. Iste, nostrum tempora corrupti quaerat sequi accusamus quo expedita sunt
+                    facere neque.
+                </p>
+                <ul class="contact-us-container clean-list flex space-around align-items-center">
+                    <li class="contact-us facebook flex space-around align-items-center">
+                        <i class="fa fa-facebook-f"></i>
+                    </li>
+                    <li class="contact-us twiter flex space-around align-items-center">
+                        <i class="fa fa-twitter"></i>
+                    </li>
+                    <li class="contact-us behance flex space-around align-items-center">
+                        <i class="fa fa-behance"></i>
+                    </li>
+                    <li class="contact-us dribble flex space-around align-items-center">
+                        <i class="fa fa-dribbble"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section id="contact" class="get-in-touch flex justify-content-center">
+        <div class="get-in-touch-container flex justify-content-center">
+            <div class="get-in-touch-form flex flex-dir-col">
+                <h1>Get in touch</h1>
+                <h4>In order to get in touch use the contact form below:</h4>
+                <div class="sub-contact">
+                    <div class="form flex flex-dir-col">
+                        <input type="text" placeholder="Name (Required)" class="get-in-touch-input">
+                        <input type="text" placeholder="Email (Required)" class="get-in-touch-input mail-massage-submition">
+                        <input type="text" placeholder="Subject" class="get-in-touch-input subject-massage-submition">
+                        <input type="text" placeholder="Write your message here..." class="write-your-message body-massage-submition">
+                        <div class="send-btn-container">
+                            <button class="send-btn" onclick="OnMessageSubmitted()">SEND</button>
+                        </div>
+                    </div>
+
+                    <div class="get-in-touch-detail flex flex-dir-col">
+                        <div class="get-in-touch-detail-p">
+                            <span>Lorem ipsum:</span> dolor sit amet consectetur adipisicing elit. Ex culpa ipsa laboriosam, a
+                            id eum soluta, dolores voluptatem est placeat quisquam, cum nemo iste aut ut reiciendis eligendi.
+                            Non, aut.
+                        </div>
+                        <div class="get-in-touch-detail-logos">
+                            <div>
+                                <i class="fa fa-map-marker"> </i> Elm St. 14/05 Lost City</div>
+                            <div>
+                                <i class="fa fa-phone"> </i> + 3582 331 86 35</div>
+                            <div>
+                                <i class="fa fa-envelope"> </i> hexalcrop@gmail.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="flex align-items-center">
+        &copy; 2018 gal&omer
+    </footer>
+
+    <script src="js/utils-service.js"></script>
+    <script src="js/upload-service.js"></script>
+    <script src="js/memegen-service.js"></script>
+    <script src="js/memegen.js"></script>
+    <script src="js/canvas.js"></script>
+
+</body>
+
+</html>
