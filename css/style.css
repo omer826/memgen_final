@@ -79,6 +79,10 @@ img, embed, video, object {
     flex-wrap: wrap;
 }
 
+.margin-right-5 {
+    margin: 0 5px 0 0;
+}
+
 /************************************************END***HELPERS**********************************/
 
 main {
@@ -299,7 +303,7 @@ header {
     background-color: #323232;
     display: grid;
     grid-template-columns: auto 1fr;
-    padding: 0 5px 0 0;
+    padding: 0 8px;
 }
 
 .hedaer-decoration {
